@@ -45,6 +45,7 @@ export class AuthService {
     });
     if (!user) throw new NotFoundException('No user found');
 
+    // 입력받은 패스워드와 해당 이메일 유저의 패스워드 비교
     const isCorrectPassword = compare(password, user.encryptedPassword);
     if (!isCorrectPassword) throw new BadRequestException('Incorrect password');
 
@@ -57,7 +58,7 @@ export class AuthService {
     const { id: subject, email } = user;
     const accessToken = sign({ email }, JWT_SECRET_KEY, {
       subject,
-      expiresIn: '5d', // 나중에 바꿔야함 2h로
+      expiresIn: 60 * 10, // 나중에 바꿔야함 2h로
     });
 
     return accessToken;
