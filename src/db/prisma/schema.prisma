@@ -14,8 +14,22 @@ datasource db {
 }
 
 model User {
-  id                String   @id
-  email             String   @unique
+  id                String    @id
+  email             String    @unique
   encryptedPassword String
-  createdAt         DateTime @default(now())
+  createdAt         DateTime  @default(now())
+  products          Product[]
+}
+
+model Product {
+  id        Int      @id @default(autoincrement())
+  author    User     @relation(fields: [authorId], references: [id])
+  authorId  String
+  title     String
+  price     String
+  content   String
+  imgSrc    String?
+  location  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
