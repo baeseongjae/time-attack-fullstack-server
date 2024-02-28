@@ -8,7 +8,7 @@ import { PrismaService } from 'src/db/prisma/prisma.service';
 export class UploadService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  async create({ title, content, price, location, image }) {
+  async create({ title, content, price, location, image, authorId }) {
     // 실제 어디다 저장할건지 + 파일명 + 확장자 => 경로 만들어주기.
     const fileName = nanoid();
     const extension = image.originalname.split('.').pop();
@@ -22,14 +22,17 @@ export class UploadService {
     await writeFile(path, image.buffer); // 저장하는 라이브러리 fs 근데 프로미스 지원안하니까 fs/promises
 
     // product(판매글)를 생성하자 이제!
-    await this.prismaService.product.create({
+    const newProduct = await this.prismaService.product.create({
       data: {
         title,
         content,
         location,
         price,
-        image: `/images/${fileName}${extension}`, //이거 어케하지;;;;;
+        imgSrc: `/images/${fileName}.${extension}`, //이거 어케하지;;;;;
+        authorId,
       },
     });
+
+    console.log(newProduct);
   }
 }

@@ -12,7 +12,7 @@ import { AuthMiddleware } from './middlewares/auth.middleware';
     PrismaModule,
     DomainsModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public/images'),
+      rootPath: join(__dirname, '..', 'public'),
     }),
   ],
   controllers: [AppController],
