@@ -14,22 +14,34 @@ datasource db {
 }
 
 model User {
-  id                String    @id
-  email             String    @unique
+  id                String     @id
+  email             String     @unique
   encryptedPassword String
-  createdAt         DateTime  @default(now())
+  createdAt         DateTime   @default(now())
   products          Product[]
+  interests         Interest[]
 }
 
 model Product {
-  id        Int      @id @default(autoincrement())
-  author    User     @relation(fields: [authorId], references: [id])
+  id        Int        @id @default(autoincrement())
+  author    User       @relation(fields: [authorId], references: [id])
   authorId  String
   title     String
   price     String
   content   String
   imgSrc    String?
   location  String
+  views     Int        @default(0)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  interests Interest[]
+}
+
+model Interest {
+  id        Int      @id @default(autoincrement())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
