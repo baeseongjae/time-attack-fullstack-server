@@ -58,9 +58,15 @@ export class AuthService {
     const { id: subject, email } = user;
     const accessToken = sign({ email }, JWT_SECRET_KEY, {
       subject,
-      expiresIn: 60 * 10, // 나중에 바꿔야함 2h로
+      expiresIn: '2h', // 나중에 바꿔야함 2h로
     });
 
     return accessToken;
+  }
+
+  refreshToken(user: User) {
+    const refreshedAccessToken = this.generateAccessToken(user);
+
+    return refreshedAccessToken;
   }
 }
